@@ -74,5 +74,5 @@ else
 fi
 
 
-echo "Volume creation script finished."
+echo "Environment (volumes & network) creation script finished."
 exit 0

@@ -5,7 +5,7 @@ services:
     image: ollama/ollama:latest
     container_name: ${OLLAMA_CONTAINER_NAME} # Use variable here
     ports:
-      - "11434:11434"
+      - "${OLLAMA_PORT}:11434"
     volumes:
       - ollama_data:/root/.ollama # Use variable here
     command: serve
@@ -16,12 +16,14 @@ services:
     image: ghcr.io/open-webui/open-webui:latest
     container_name: ${OPENWEBUI_CONTAINER_NAME} # Use variable here
     ports:
-      - "3000:8080"
+      - "${WEBUI_PORT}:8080"
     volumes:
       - open_webui_data:/app/backend/data # Use variable here
     environment:
       # Referencing the service name directly works within the compose network
-      - OLLAMA_BASE_URL=http://ollama-cpu:11434
+      - OLLAMA_BASE_URL=http://ollama-cpu:${OLLAMA_PORT}
+    depends_on:
+      - ollama-cpu
     restart: always
     networks:
       - ollama_network
